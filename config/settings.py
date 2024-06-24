@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-ENV_DIR = BASE_DIR / '.env'
+ENV_DIR = BASE_DIR / ".env"
 load_dotenv(ENV_DIR)
 
 # Quick-start development settings - unsuitable for production
@@ -42,10 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "materials",
-    'users',
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -116,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "ru-ru"
+LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
 
