@@ -1,5 +1,7 @@
 from django.db import models
 
+NULLABLE = {"blank": True, "null": True}
+
 
 class Course(models.Model):
     name = models.CharField(
@@ -11,14 +13,10 @@ class Course(models.Model):
         upload_to="materials/course",
         verbose_name="Превью(картинка)",
         help_text="Загрузите изображение",
-        blank=True,
-        null=True,
+        **NULLABLE,
     )
     description = models.TextField(
-        verbose_name="Описание",
-        help_text="Введите описание курса",
-        blank=True,
-        null=True,
+        verbose_name="Описание", help_text="Введите описание курса", **NULLABLE
     )
 
     def __str__(self):
@@ -40,14 +38,10 @@ class Lesson(models.Model):
         upload_to="materials/lesson",
         verbose_name="Превью(картинка)",
         help_text="Загрузите изображение",
-        blank=True,
-        null=True,
+        **NULLABLE,
     )
     description = models.TextField(
-        verbose_name="Описание",
-        help_text="Введите описание урока",
-        blank=True,
-        null=True,
+        verbose_name="Описание", help_text="Введите описание урока", **NULLABLE
     )
     course = models.ForeignKey(
         Course,
@@ -56,11 +50,7 @@ class Lesson(models.Model):
         verbose_name="Курс",
         help_text="Выберите курс",
     )
-    url = models.URLField(
-        verbose_name="Ссылка на видео",
-        blank=True,
-        null=True,
-    )
+    url = models.URLField(verbose_name="Ссылка на видео", **NULLABLE)
 
     def __str__(self):
         return f"{self.name}, курс - {self.course}"

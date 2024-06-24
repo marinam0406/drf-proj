@@ -1,6 +1,11 @@
 from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import (
+    CreateAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+)
 
 from materials.models import Course, Lesson
 from materials.serializers import CourseSerializer, LessonSerializer
@@ -9,6 +14,7 @@ from materials.serializers import CourseSerializer, LessonSerializer
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
 
 class LessonCreateAPIView(CreateAPIView):
     serializer_class = LessonSerializer
