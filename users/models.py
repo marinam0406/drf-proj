@@ -37,21 +37,44 @@ class User(AbstractUser):
 
 
 class Payment(models.Model):
+    METHOD_CHOICES = [
+        ("Cash", "Оплата наличными"),
+        ("Non-cash", "Безналичный расчет"),
+    ]
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+        User,
+        on_delete=models.CASCADE,
+        related_name="user_payment",
+        verbose_name="Пользователь",
+        **NULLABLE,
     )
-    payment_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата оплаты")
-    course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, verbose_name="Курс", **NULLABLE
+    payment_date = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата оплаты"
     )
-    lesson = models.ForeignKey(
-        Lesson, on_delete=models.CASCADE, verbose_name="Лекция", **NULLABLE
+    paid_course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, verbose_name="Оплаченный курс", **NULLABLE
     )
-    total_sum = models.FloatField(verbose_name="Сумма оплаты")
-    payment_method = models.CharField(max_length=20, verbose_name="Способ оплаты")
-
+    paid_lesson = models.ForeignKey(
+        Lesson, on_delete=models.CASCADE, verbose_name="Оплаченный урок", **NULLABLE
+    )
+    payment_amount = models.PositiveIntegerField(
+        verbose_name="Сумма платежа", help_text="Введите сумму платежа", **NULLABLE
+    )
+    payment_method = models.CharField(
+        verbose_name="Способ оплаты",
+        max_length=100,
+        help_text="Выберите способ оплаты",
+        choices=METHOD_CHOICES, **NULLABLE
+    )
+    session_id = models.CharField(max_length=255, verbose_name="ID сессии", **NULLABLE)
+    payment_link = models.URLField(
+        max_length=400, verbose_name="Ссылка на оплату", **NULLABLE
+    )
     def __str__(self):
-        return f"{self.user} - {self.lesson if self.lesson else self.course}: {self.total_sum}"
+        return (
+            f"{self.user}: {self.date_of_payment}, {self.payment_amount}, {self.payment_method}, "
+            f"за {self.paid_course if self.paid_course else self.paid_lesson}"
+        )
 
     class Meta:
         verbose_name = "Платеж"

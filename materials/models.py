@@ -28,6 +28,7 @@ class Course(models.Model):
         verbose_name='Владелец',
         **NULLABLE
     )
+    amount = models.PositiveIntegerField(verbose_name='стоимость курса', **NULLABLE)
 
     def __str__(self):
         return self.name
@@ -63,6 +64,7 @@ class Lesson(models.Model):
     url = models.URLField(verbose_name="Ссылка на видео", **NULLABLE)
     owner = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='владелец',
                               **NULLABLE)
+    amount = models.PositiveIntegerField(verbose_name='стоимость курса', **NULLABLE)
 
     def __str__(self):
         return f"{self.name}, курс - {self.course}"
