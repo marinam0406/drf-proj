@@ -17,6 +17,9 @@ from materials.serializers import CourseSerializer, LessonSerializer, Subscripti
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for Course.
+    """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     pagination_class = CustomPagination
@@ -42,6 +45,9 @@ class CourseViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
 class LessonCreateAPIView(CreateAPIView):
+    """
+    Lesson create endpoint.
+    """
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, ~IsModerator | IsOwner]
 
@@ -52,6 +58,9 @@ class LessonCreateAPIView(CreateAPIView):
 
 
 class LessonListAPIView(ListAPIView):
+    """
+    Lesson list endpoint.
+    """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated]
@@ -65,22 +74,34 @@ class LessonListAPIView(ListAPIView):
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):
+    """
+    Lesson retrieve endpoint.
+    """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
 
 
 class LessonUpdateAPIView(UpdateAPIView):
+    """
+    Lesson update endpoint.
+    """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
 
 
 class LessonDestroyAPIView(DestroyAPIView):
+    """
+    Lesson destroy endpoint.
+    """
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, ~IsModerator | IsOwner]
 
 class SubscriptionAPIView(APIView):
+    """
+    Subscription create endpoint.
+    """
     serializer_class = SubscriptionSerializer
     permission_classes = [IsAuthenticated, IsOwner]
 
