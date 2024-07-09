@@ -47,6 +47,7 @@ class LessonTestCase(APITestCase):
                     "image": None,
                     "description": self.lesson.description,
                     "url": None,
+                    "amount": None,
                     "course": self.course.pk,
                     "owner": self.user.pk,
                 }
@@ -71,7 +72,7 @@ class LessonTestCase(APITestCase):
         self.assertEqual(data["name"], "New Test Lesson")
 
     def test_lesson_delete(self):
-        url = reverse("materials:lessons_delete", args=(self.lesson.pk,))
+        url = reverse("materials:lessons_destroy", args=(self.lesson.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Lesson.objects.count(), 0)
