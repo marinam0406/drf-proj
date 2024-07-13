@@ -1,3 +1,6 @@
+from django.utils import timezone
+from datetime import *
+
 from rest_framework import viewsets
 from rest_framework.generics import (
     CreateAPIView,
@@ -14,6 +17,7 @@ from materials.models import Course, Lesson, Subscription
 from materials.paginators import CustomPagination
 from materials.permissions import IsModerator, IsOwner
 from materials.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
+from materials.tasks import send_update_course_mail
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -43,6 +47,14 @@ class CourseViewSet(viewsets.ModelViewSet):
         if self.action == 'destroy':
             self.permission_classes = [IsAuthenticated, ~IsModerator | IsOwner]
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        course_id = course.id
+        course.last_update = datetime.now(timezone.utc)
+
+        send_update_course_mail.delay(course_id)
+
 
 class LessonCreateAPIView(CreateAPIView):
     """
